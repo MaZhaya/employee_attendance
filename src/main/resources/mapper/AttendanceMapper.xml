@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.AttendanceMapper">
+    <insert id="checkIn">
+        INSERT INTO attendance(emp_id, check_date, check_in, status)
+        VALUES(#{empId}, #{checkDate}, #{checkIn}, #{status})
+    </insert>
+
+    <update id="checkOut">
+        UPDATE attendance
+        SET check_out=NOW()
+        WHERE emp_id=#{empId}
+          AND check_date=CURDATE()
+          AND check_out IS NULL
+    </update>
+
+    <select id="getTodayAttendance" resultType="entity.Attendance">
+        SELECT * FROM attendance
+        WHERE emp_id=#{empId} AND check_date=CURDATE()
+    </select>
+
+    <select id="listByEmpId" resultType="entity.Attendance">
+        SELECT * FROM attendance WHERE emp_id=#{empId}
+    </select>
+
+    <select id="listAll" resultType="entity.Attendance">
+        SELECT * FROM attendance ORDER BY check_date DESC
+    </select>
+
+    <!-- 根据ID删除考勤记录 -->
+    <delete id="deleteById">
+        DELETE FROM attendance WHERE id=#{id}
+    </delete>
+
+    <!-- ===================== 多对一关联映射：考勤 + 员工信息 ===================== -->
+    <resultMap id="AttendanceEmployeeMap" type="entity.Attendance">
+        <id column="id" property="id"/>
+        <result column="emp_id" property="empId"/>
+        <result column="check_date" property="checkDate"/>
+        <result column="check_in" property="checkIn"/>
+        <result column="check_out" property="checkOut"/>
+        <result column="status" property="status"/>
+
+        <!-- 多对一：关联员工 -->
+        <association property="employee" javaType="entity.Employee">
+            <id column="e_id" property="id"/>
+            <result column="emp_no" property="empNo"/>
+            <result column="emp_name" property="empName"/>
+            <result column="gender" property="gender"/>
+            <result column="phone" property="phone"/>
+            <result column="dept_id" property="deptId"/>
+        </association>
+    </resultMap>
+
+    <!-- 关联查询：查询所有考勤，并带出员工信息 -->
+    <select id="listAllWithEmployee" resultMap="AttendanceEmployeeMap">
+        SELECT
+            a.*,
+            e.id AS e_id,
+            e.emp_no,
+            e.emp_name,
+            e.gender,
+            e.phone,
+            e.dept_id
+        FROM attendance a
+                 LEFT JOIN employee e ON a.emp_id = e.id
+        ORDER BY a.check_date DESC
+    </select>
+
+</mapper>
