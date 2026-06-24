@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           https://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/mvc
+           https://www.springframework.org/schema/mvc/spring-mvc.xsd
+           http://www.springframework.org/schema/context
+           https://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- ① 扫描 Controller 层 -->
+    <context:component-scan base-package="controller"/>
+    <!-- 也扫描拦截器 -->
+    <context:component-scan base-package="interceptor"/>
+
+    <!-- ② 开启 MVC 注解驱动（自动注册 RequestMappingHandlerMapping 等） -->
+    <mvc:annotation-driven/>
+
+    <!-- ③ 静态资源放行（css/js/图片 不经过 Controller，直接返回） -->
+    <mvc:resources mapping="/static/**" location="/static/" cache-period="3600"/>
+
+    <!-- ④ 视图解析器：Controller 返回的字符串 → JSP 路径 -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!-- ⑤ 登录拦截器 -->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/admin/**"/>
+            <mvc:mapping path="/employee/**"/>
+            <mvc:mapping path="/attendance/**"/>
+            <mvc:mapping path="/emp/**"/>
+            <mvc:mapping path="/dept/**"/>
+            <mvc:mapping path="/leave/**"/>
+            <!-- 以下路径不拦截 -->
+            <mvc:exclude-mapping path="/login"/>
+            <mvc:exclude-mapping path="/register"/>
+            <mvc:exclude-mapping path="/login.jsp"/>
+            <mvc:exclude-mapping path="/register.jsp"/>
+            <mvc:exclude-mapping path="/static/**"/>
+            <mvc:exclude-mapping path="/error.jsp"/>
+            <bean class="interceptor.LoginInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+</beans>
