@@ -1,32 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
-
-    <!-- 读取 db.properties 配置文件 -->
-    <properties resource="db.properties"/>
-<!--    开启驼峰命名自动映射-->
+    <!-- 全局设置 -->
     <settings>
+        <!-- 驼峰命名自动映射：emp_name → empName -->
         <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <!-- 懒加载（关联查询按需加载） -->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <setting name="aggressiveLazyLoading" value="false"/>
+        <!-- 日志（开发时可用 STDOUT_LOGGING 看 SQL） -->
+        <!-- <setting name="logImpl" value="STDOUT_LOGGING"/> -->
     </settings>
 
-    <environments default="development">
-        <environment id="development">
-            <transactionManager type="JDBC"/>
-            <dataSource type="POOLED">
-                <property name="driver" value="${jdbc.driver}"/>
-                <property name="url" value="${jdbc.url}"/>
-                <property name="username" value="${jdbc.username}"/>
-                <property name="password" value="${jdbc.password}"/>
-            </dataSource>
-        </environment>
-    </environments>
-
-    <mappers>
-        <mapper resource="mapper/AttendanceMapper.xml"/>
-        <mapper resource="mapper/DepartmentMapper.xml"/>
-        <mapper resource="mapper/EmployeeMapper.xml"/>
-        <mapper resource="mapper/LeaveMapper.xml"/>
-        <mapper resource="mapper/UserMapper.xml"/>
-    </mappers>
+    <!--
+        数据源、事务、Mapper注册 全部移到 applicationContext.xml 由 Spring 管理。
+        此处只保留 MyBatis 自身的行为配置。
+    -->
 </configuration>

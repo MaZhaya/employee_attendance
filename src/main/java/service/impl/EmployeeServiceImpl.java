@@ -2,13 +2,17 @@ package service.impl;
 
 import entity.Employee;
 import mapper.EmployeeMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import service.EmployeeService;
-import utils.MyBatisUtil;
+
 import java.util.List;
 
+@Service
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private final EmployeeMapper employeeMapper = MyBatisUtil.getSqlSession().getMapper(EmployeeMapper.class);
+    @Autowired
+    private EmployeeMapper employeeMapper;
 
     @Override
     public boolean add(Employee emp) {

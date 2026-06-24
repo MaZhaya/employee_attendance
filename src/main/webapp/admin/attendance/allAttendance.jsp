@@ -1,55 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="java.util.List,entity.Attendance" %>
-<html>
-<head>
-    <title>全员考勤记录</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: "Microsoft Yahei", sans-serif;
-        }
-        body {
-            background-color: #f5f7fa;
-        }
-        .container {
-            width: 90%;
-            max-width: 1000px;
-            margin: 3rem auto;
-            background: #fff;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-        }
-        h2 {
-            text-align: center;
-            color: #2c3e50;
-            margin-bottom: 1.5rem;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: center;
-        }
-        th,td {
-            padding: 12px;
-            border-bottom: 1px solid #eee;
-        }
-        th {
-            background-color: #f8f9fa;
-        }
-        .back {
-            display: inline-block;
-            margin-top: 1.5rem;
-            color: #3498db;
-            text-decoration: none;
-        }
-    </style>
-</head>
-<body>
-<div class="container">
-    <h2>全员考勤记录</h2>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<jsp:include page="/WEB-INF/common/header.jsp">
+    <jsp:param name="pageTitle" value="全员考勤"/>
+</jsp:include>
+
+<div class="card">
+    <h2 class="page-title">📊 全员考勤记录</h2>
+
     <table>
         <tr>
             <th>序号</th>
@@ -59,26 +16,30 @@
             <th>下班时间</th>
             <th>考勤状态</th>
         </tr>
-        <%
-            List<Attendance> allAttList = (List<Attendance>)request.getAttribute("allAttList");
-            if(allAttList != null){
-                for(int i=0;i<allAttList.size();i++){
-                    Attendance a = allAttList.get(i);
-        %>
-        <tr>
-            <td><%=i+1%></td>
-            <td><%=a.getEmpId()%></td>
-            <td><%=a.getCheckDate()%></td>
-            <td><%=a.getCheckIn()%></td>
-            <td><%=a.getCheckOut()%></td>
-            <td><%=a.getStatus()%></td>
-        </tr>
-        <%
-                }
-            }
-        %>
+        <c:choose>
+            <c:when test="${not empty attList}">
+                <c:forEach items="${attList}" var="att" varStatus="vs">
+                    <tr>
+                        <td>${vs.count}</td>
+                        <td>${att.empId}</td>
+                        <td>${att.checkDate}</td>
+                        <td>${att.checkIn}</td>
+                        <td>${att.checkOut != null ? att.checkOut : '—'}</td>
+                        <td>
+                            <span class="badge ${att.status == '正常' ? 'badge-success' : 'badge-danger'}">
+                                ${att.status}
+                            </span>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </c:when>
+            <c:otherwise>
+                <tr><td colspan="6" style="color:#999;">暂无考勤记录</td></tr>
+            </c:otherwise>
+        </c:choose>
     </table>
-    <a href="${pageContext.request.contextPath}/admin/index.jsp" class="back">← 返回管理员主页</a>
+
+    <a href="${pageContext.request.contextPath}/admin/index.jsp" class="link-back">← 返回管理员主页</a>
 </div>
-</body>
-</html>
+
+<jsp:include page="/WEB-INF/common/footer.jsp"/>

@@ -7,47 +7,106 @@
     <groupId>com.example</groupId>
     <artifactId>zuoye1</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>zuoye1</name>
+    <name>employee-attendance</name>
     <packaging>war</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>25</maven.compiler.source>
         <maven.compiler.target>25</maven.compiler.target>
+
+        <!-- 统一版本管理 -->
+        <spring.version>6.1.6</spring.version>
+        <mybatis.version>3.5.15</mybatis.version>
+        <mybatis-spring.version>3.0.4</mybatis-spring.version>
+        <mysql.version>8.0.32</mysql.version>
+        <druid.version>1.2.23</druid.version>
+        <jakarta-servlet.version>6.1.0</jakarta-servlet.version>
         <junit.version>5.13.2</junit.version>
     </properties>
 
     <dependencies>
-        <!-- MyBatis -->
+        <!-- ==================== Spring 核心 ==================== -->
+        <!-- IoC 容器 -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <!-- Spring MVC（Web 层框架，替代 Servlet） -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <!-- Spring JDBC（事务管理） -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <!-- ==================== MyBatis + Spring 整合 ==================== -->
         <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis</artifactId>
-            <version>3.5.15</version>
+            <version>${mybatis.version}</version>
         </dependency>
 
+        <!-- MyBatis-Spring 桥接包（核心！连接 Spring 和 MyBatis） -->
         <dependency>
-            <groupId>javax.servlet.jsp</groupId>
-            <artifactId>jsp-api</artifactId>
-            <version>2.2</version>
-            <scope>provided</scope>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-spring</artifactId>
+            <version>${mybatis-spring.version}</version>
         </dependency>
-        <dependency>
-            <groupId>jstl</groupId>
-            <artifactId>jstl</artifactId>
-            <version>1.2</version>
-        </dependency>
+
+        <!-- ==================== 数据库 ==================== -->
+        <!-- MySQL 驱动 -->
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
-            <version>8.0.32</version>
+            <version>${mysql.version}</version>
         </dependency>
 
+        <!-- Druid 连接池（比 MyBatis 自带的 POOLED 更强大） -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>${druid.version}</version>
+        </dependency>
+
+        <!-- ==================== Web ==================== -->
+        <!-- Jakarta Servlet API（Tomcat 10.1+ 自带，scope=provided） -->
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
-            <version>6.1.0</version>
+            <version>${jakarta-servlet.version}</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- JSP API -->
+        <dependency>
+            <groupId>jakarta.servlet.jsp</groupId>
+            <artifactId>jakarta.servlet.jsp-api</artifactId>
+            <version>4.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- JSTL（Jakarta EE 版本，替代 Scriptlet） -->
+        <dependency>
+            <groupId>jakarta.servlet.jsp.jstl</groupId>
+            <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>jakarta.servlet.jsp.jstl</artifactId>
+            <version>3.0.1</version>
+        </dependency>
+
+        <!-- ==================== 测试 ==================== -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
@@ -58,6 +117,14 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Spring Test（Spring 集成测试支持） -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

@@ -2,25 +2,33 @@ package service.impl;
 
 import entity.LeaveApply;
 import mapper.LeaveMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import service.LeaveService;
-import utils.MyBatisUtil;
+
 import java.util.List;
 
+@Service
 public class LeaveServiceImpl implements LeaveService {
 
-    private final LeaveMapper leaveMapper = MyBatisUtil.getSqlSession().getMapper(LeaveMapper.class);
+    @Autowired
+    private LeaveMapper leaveMapper;
 
     @Override
+    @Transactional
     public boolean addLeave(LeaveApply leave) {
         return leaveMapper.addLeave(leave);
     }
 
     @Override
+    @Transactional
     public boolean approve(Integer id) {
         return leaveMapper.updateStatus(id, "已通过");
     }
 
     @Override
+    @Transactional
     public boolean reject(Integer id) {
         return leaveMapper.updateStatus(id, "已拒绝");
     }

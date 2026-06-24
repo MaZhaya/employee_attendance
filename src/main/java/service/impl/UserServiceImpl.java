@@ -2,12 +2,16 @@ package service.impl;
 
 import entity.User;
 import mapper.UserMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import service.UserService;
-import utils.MyBatisUtil;
 
+@Service
 public class UserServiceImpl implements UserService {
 
-    private final UserMapper userMapper = MyBatisUtil.getSqlSession().getMapper(UserMapper.class);
+    @Autowired
+    private UserMapper userMapper;
 
     @Override
     public User login(String username, String password) {
@@ -20,9 +24,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public boolean register(User user) {
-        // 调用UserMapper的insert方法
         int rows = userMapper.insertUser(user);
-        return rows > 0; // 插入行数>0表示成功
+        return rows > 0;
     }
 }

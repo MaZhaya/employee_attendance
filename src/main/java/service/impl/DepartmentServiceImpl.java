@@ -2,13 +2,17 @@ package service.impl;
 
 import entity.Department;
 import mapper.DepartmentMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import service.DepartmentService;
-import utils.MyBatisUtil;
+
 import java.util.List;
 
+@Service
 public class DepartmentServiceImpl implements DepartmentService {
 
-    private final DepartmentMapper departmentMapper = MyBatisUtil.getSqlSession().getMapper(DepartmentMapper.class);
+    @Autowired
+    private DepartmentMapper departmentMapper;
 
     @Override
     public boolean add(Department dept) {
