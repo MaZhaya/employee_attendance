@@ -26,7 +26,7 @@
         <div class="stat-card">
             <div class="stat-num">📝</div>
             <div class="stat-label">请假审批</div>
-            <a href="${pageContext.request.contextPath}/leave?action=listAll" class="btn btn-primary" style="margin-top:0.5rem;">进入审批</a>
+            <a href="${pageContext.request.contextPath}/leave/list" class="btn btn-primary" style="margin-top:0.5rem;">进入审批</a>
         </div>
     </div>
 </div>

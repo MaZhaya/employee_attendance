@@ -12,9 +12,6 @@ import service.DepartmentService;
 
 import java.util.List;
 
-/**
- * 部门管理 — 替代 DeptServlet
- */
 @Controller
 @RequestMapping("/dept")
 public class DeptController {
@@ -22,7 +19,6 @@ public class DeptController {
     @Autowired
     private DepartmentService departmentService;
 
-    // ========== 部门列表 ==========
     @GetMapping(params = "action=list")
     public String list(Model model) {
         List<Department> list = departmentService.list();
@@ -30,16 +26,14 @@ public class DeptController {
         return "admin/dept/list";
     }
 
-    // ========== 跳转新增页 ==========
     @GetMapping(params = "action=toAdd")
     public String toAdd() {
         return "admin/dept/add";
     }
 
-    // ========== 新增部门 ==========
     @PostMapping(params = "action=add")
-    public String add(@RequestParam String deptName,
-                      @RequestParam(required = false) String deptDesc) {
+    public String add(@RequestParam("deptName") String deptName,
+                      @RequestParam(name = "deptDesc", required = false) String deptDesc) {
         Department dept = new Department();
         dept.setDeptName(deptName);
         dept.setDeptDesc(deptDesc);
@@ -47,9 +41,8 @@ public class DeptController {
         return "redirect:/dept?action=list";
     }
 
-    // ========== 删除部门 ==========
     @GetMapping(params = "action=delete")
-    public String delete(@RequestParam Integer id) {
+    public String delete(@RequestParam("id") Integer id) {
         departmentService.delete(id);
         return "redirect:/dept?action=list";
     }

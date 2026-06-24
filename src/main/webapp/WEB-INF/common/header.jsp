@@ -32,7 +32,7 @@
         <a href="${pageContext.request.contextPath}/dept?action=list">🏢 部门管理</a>
         <a href="${pageContext.request.contextPath}/emp?action=list">👥 员工管理</a>
         <a href="${pageContext.request.contextPath}/attendance?action=listAll">📊 考勤记录</a>
-        <a href="${pageContext.request.contextPath}/leave?action=listAll">📝 请假审批</a>
+        <a href="${pageContext.request.contextPath}/leave/list">📝 请假审批</a>
     </div>
     </c:if>
 

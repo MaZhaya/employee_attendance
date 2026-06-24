@@ -20,12 +20,12 @@
         <div class="stat-card">
             <div class="stat-num">📝</div>
             <div class="stat-label">请假申请</div>
-            <a href="${pageContext.request.contextPath}/leave?action=toApply" class="btn btn-warning" style="margin-top:0.5rem;">去请假</a>
+            <a href="${pageContext.request.contextPath}/leave/toApply" class="btn btn-warning" style="margin-top:0.5rem;">去请假</a>
         </div>
         <div class="stat-card">
             <div class="stat-num">📄</div>
             <div class="stat-label">我的请假</div>
-            <a href="${pageContext.request.contextPath}/leave?action=listMyLeave" class="btn btn-primary" style="margin-top:0.5rem;">查看记录</a>
+            <a href="${pageContext.request.contextPath}/leave/my" class="btn btn-primary" style="margin-top:0.5rem;">查看记录</a>
         </div>
     </div>
 </div>

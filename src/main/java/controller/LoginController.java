@@ -10,21 +10,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import service.UserService;
 
-/**
- * 登录/注册/退出 — 替代 LoginServlet + RegisterServlet + LogoutServlet
- */
 @Controller
 public class LoginController {
 
     @Autowired
     private UserService userService;
 
-    // ==================== 登录 ====================
-
     @PostMapping("/login")
-    public String login(@RequestParam String username,
-                        @RequestParam String password,
-                        @RequestParam String role,
+    public String login(@RequestParam("username") String username,
+                        @RequestParam("password") String password,
+                        @RequestParam("role") String role,
                         HttpSession session,
                         Model model) {
 
@@ -32,7 +27,7 @@ public class LoginController {
 
         if (loginUser == null) {
             model.addAttribute("msg", "账号或密码错误！");
-            return "login"; // → /login.jsp
+            return "login";
         }
 
         session.setAttribute("loginUser", loginUser);
@@ -49,17 +44,15 @@ public class LoginController {
         return "login";
     }
 
-    // ==================== 注册 ====================
-
     @GetMapping("/register")
     public String registerPage() {
         return "register";
     }
 
     @PostMapping("/register")
-    public String register(@RequestParam String username,
-                           @RequestParam String password,
-                           @RequestParam(defaultValue = "employee") String role,
+    public String register(@RequestParam("username") String username,
+                           @RequestParam("password") String password,
+                           @RequestParam(name = "role", defaultValue = "employee") String role,
                            Model model) {
 
         User user = new User();
@@ -76,8 +69,6 @@ public class LoginController {
             return "register";
         }
     }
-
-    // ==================== 退出 ====================
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {

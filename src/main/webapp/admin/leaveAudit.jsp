@@ -8,7 +8,7 @@
     <h2 class="page-title">📝 员工请假审批管理</h2>
 
     <c:if test="${not empty msg}">
-        <div class="alert ${msg.contains('成功') || msg.contains('通过') ? 'alert-success' : 'alert-info'}">${msg}</div>
+        <div class="alert alert-success">${msg}</div>
     </c:if>
 
     <table>
@@ -45,9 +45,9 @@
                         </td>
                         <td>
                             <c:if test="${leave.approveStatus == '待审批'}">
-                                <a href="${pageContext.request.contextPath}/leave?action=pass&id=${leave.id}"
+                                <a href="${pageContext.request.contextPath}/leave/pass?id=${leave.id}"
                                    class="btn btn-success btn-sm">通过</a>
-                                <a href="${pageContext.request.contextPath}/leave?action=refuse&id=${leave.id}"
+                                <a href="${pageContext.request.contextPath}/leave/refuse?id=${leave.id}"
                                    class="btn btn-danger btn-sm"
                                    onclick="return confirm('确定要拒绝吗？')">拒绝</a>
                             </c:if>

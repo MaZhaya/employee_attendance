@@ -10,8 +10,7 @@
         <div class="alert ${msg.contains('成功') ? 'alert-success' : 'alert-error'}">${msg}</div>
     </c:if>
 
-    <form action="${pageContext.request.contextPath}/leave" method="post">
-        <input type="hidden" name="action" value="apply">
+    <form action="${pageContext.request.contextPath}/leave/apply" method="post">
         <div class="form-group">
             <label>请假类型</label>
             <select name="leaveType" class="form-control">
